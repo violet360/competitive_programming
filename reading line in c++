@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+typedef long long ll;
+# define FAST_CODE ios_base::sync_with_stdio(false); cin.tie(NULL);
+# define pb push_back
+using namespace std;
+const ll n = 10000001;
+
+vector <ll> Prime;
+
+bool is_composite[n];
+bool is_prime[n];
+
+void linear_sieve ()
+{
+	std::fill (is_composite, is_composite + n, false);
+	for (ll i = 2; i < n; ++i) 
+	{
+		if (!is_composite[i]) 
+		{
+			Prime.push_back (i);
+			is_prime[i] = true;
+		}
+		for (ll j = 0; j < Prime.size () && i * Prime[j] < n; ++j) 
+		{
+			is_composite[i * Prime[j]] = true;
+			if (i % Prime[j] == 0) break;
+		}
+	}
+}
+
+int main() 
+{
+
+	FAST_CODE
+  
+  /*
+  you have to read integrs on each line and you have to tell weather they can expressed as a summation of 4 primes
+  https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1109
+  summation of four primes UVA
+  */
+	
+	linear_sieve();
+	
+	string s;
+	
+	while(getline(cin, s))
+	{
+		stringstream geek(s);
+		ll x;
+		geek>>x;
+		// cout<<x<<endl;
+		if(x<8)
+		{
+			cout<<"Impossible."<<endl;
+			continue;
+		}
+		
+		if(x%2==0)
+		{
+			x-=4;
+			cout<<2<<" "<<2<<" ";
+		}
+		
+		else if(x%2!=0)
+		{
+			x-=5;
+			cout<<2<<" "<<3<<" ";
+		}
+		
+		for(ll i=2; i<=x/2; i++)
+		{
+			if(is_prime[i] && is_prime[x-i])
+			{
+				cout<<i<<" "<<x-i<<endl;
+				break;
+			}
+		}
+	}
+	
+	return 0;
+}
