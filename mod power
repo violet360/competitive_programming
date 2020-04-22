@@ -1,0 +1,15 @@
+#define MOD 2000000011
+
+ll mod_pow(ll a, ll b)
+{
+    ll ret = 1;
+    
+    while(b)
+    {
+        if(b & 1) ret = ret * a % MOD;
+        a = a * a % MOD;
+        b >>= 1;
+    }
+    
+    return ret;
+}
