@@ -1,4 +1,16 @@
 /*
+MO’s algorithm is quite general. It’s applicable anytime where you have a static array, a lot of
+overlapping queries known in advance (offline) and where the can easily add/remove the contribution of an element easily.
+It’s particularly useful when you work with an operation that is complicated enough to make segment trees hard/impossible to use.
+
+Perhaps a bit outside the scope of your question, but from my experience when it comes to tasks with queries in general my mental checklist is
+
+- Can queries be done analytically? If so just process the queries online.
+- Is the function a good fit for a segment tree? Use a segment tree to solve queries online.
+- Is the function weird but fits the requirements for MO? Use MO if O(n.sqrt(n)) will do.
+- Investigate other solutions, specific data structures related to the operation at hand.
+
+
 You have an array Arr of N numbers ranging from 0 to 99. Also you have Q queries [L, R]. For each such query you must print
 V([L, R]) = ∑i=0..99 count(i)2 * i
 where count(i) is the number of times i occurs in Arr[L..R].
