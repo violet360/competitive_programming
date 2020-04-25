@@ -29,7 +29,10 @@ test case:
 
 */
 
-#include <bits/stdc++.h>
+#include<cstdio>
+#include<cmath>
+#include<algorithm>
+#include<iostream>
 typedef long long ll;
 typedef long double ld;
 # define FAST_CODE ios_base::sync_with_stdio(false); cin.tie(NULL);
@@ -37,20 +40,21 @@ typedef long double ld;
 #define MOD 1e+9
 using namespace std;
 
+
 ll N, Q;
 
 // Variables, that hold current "state" of computation
 ll current_answer;
-ll cnt[100];
+ll cnt[1000001];
 
 // Array to store answers (because the order we achieve them is messed up)
-ll answers[100500];
+ll answers[200501];
 ll BLOCK_SIZE;
-ll arr[100500];
+ll arr[1005000];
 
 // We will represent each query as three numbers: L, R, idx. Idx is 
 // the position (in original order) of this query.
-pair< pair<ll, ll>, ll> queries[100500];
+pair< pair<ll, ll>, ll> queries[200500];
 
 
 // Essential part of Mo's algorithm: comparator, which we will
@@ -87,7 +91,7 @@ int main()
 {
     FAST_CODE;
     cin >> N >> Q;
-    BLOCK_SIZE = static_cast<ll>(sqrt(N));
+    BLOCK_SIZE = sqrt(N);
 
     // Read input array
     for(ll i = 0; i < N; i++)
@@ -95,13 +99,17 @@ int main()
 
     // Read input queries, which are 0-indexed. Store each query's 
     // original position. We will use it when printing answer.
-    for(ll i = 0; i < Q; i++) {
-        cin >> queries[i].first.first >> queries[i].first.second;
+    ll A, B;
+    for(ll i = 0; i < Q; i++) 
+    {
+    	cin>>A>>B;
+        queries[i].first.first = A-1;
+        queries[i].first.second = B-1;
         queries[i].second = i;
     }
 
     // Sort queries using Mo's special comparator we defined.
-    sort(queries, queries + Q, mo_cmp);
+    std::sort(queries, queries + Q, mo_cmp);
 
     // Set up current segment [mo_left, mo_right].
     ll mo_left = 0, mo_right = -1;
