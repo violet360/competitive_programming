@@ -8,6 +8,8 @@ ll parent[1000];
 ll c = 1;
 //  warning this is not a rule of thumb often you have to make necessary changes
 // to get get proper flat[] in[] and out[] arrays inoccordance to the question
+// generally if subtree queries flat[] has inorder dfs route and if path queries flat[] has eulerian route and that too
+// has 2-3 variants depending on your needs so use it wisely :)
 void dfs(ll src, ll in[], ll out[], ll flat[])
 {
 	used[src] = true;
