@@ -46,29 +46,28 @@ ll N, Q;
 // Variables, that hold current "state" of computation
 ll current_answer;
 ll cnt[1000001];
-
+ll BLOCK_SIZE;
 // Array to store answers (because the order we achieve them is messed up)
 ll answers[200501];
-ll BLOCK_SIZE;
+
 ll arr[1005000];
 
 // We will represent each query as three numbers: L, R, idx. Idx is 
 // the position (in original order) of this query.
-pair< pair<ll, ll>, ll> queries[200500];
+// pair< pair<ll, ll>, ll> queries[200500];
+struct Query {
+    ll l, r, idx;
+}queries[200500];
 
-
+bool cmp(Query p, Query q)
+{
+    if (p.l / BLOCK_SIZE != q.l / BLOCK_SIZE)
+        return p.l < q.l;
+    return (p.l / BLOCK_SIZE & 1) ? (p.r < q.r) : (p.r > q.r);
+}
 // Essential part of Mo's algorithm: comparator, which we will
 // use with std::sort. It is a function, which must return True
 // if query x must come earlier than query y, and False otherwise.
-inline bool mo_cmp(const pair< pair<ll, ll>, ll> &x,
-        const pair< pair<ll, ll>, ll> &y)
-{
-    ll block_x = x.first.first / BLOCK_SIZE;
-    ll block_y = y.first.first / BLOCK_SIZE;
-    if(block_x != block_y)
-        return block_x < block_y;
-    return x.first.second < y.first.second;
-}
 
 // When adding a number, we first nullify it's effect on current
 // answer, then update cnt array, then account for it's effect again.
@@ -91,7 +90,7 @@ int main()
 {
     FAST_CODE;
     cin >> N >> Q;
-    BLOCK_SIZE = sqrt(N);
+	BLOCK_SIZE = sqrt(N);
 
     // Read input array
     for(ll i = 0; i < N; i++)
@@ -103,25 +102,26 @@ int main()
     for(ll i = 0; i < Q; i++) 
     {
     	cin>>A>>B;
-        queries[i].first.first = A-1;
-        queries[i].first.second = B-1;
-        queries[i].second = i;
+        queries[i].l = A-1;
+        queries[i].r = B-1;
+        queries[i].idx = i;
     }
 
     // Sort queries using Mo's special comparator we defined.
-    std::sort(queries, queries + Q, mo_cmp);
+    std::sort(queries, queries + Q, cmp);
 
     // Set up current segment [mo_left, mo_right].
     ll mo_left = 0, mo_right = -1;
 
     for(ll i = 0; i < Q; i++) {
         // [left, right] is what query we must answer now.
-        ll left = queries[i].first.first;
-        ll right = queries[i].first.second;
+        ll left = queries[i].l;
+        ll right = queries[i].r;
 
         // Usual part of applying Mo's algorithm: moving mo_left
         // and mo_right.
-        while(mo_right < right) {
+        while(mo_right < right)
+        {
             mo_right++;
             add(arr[mo_right]);
         }
@@ -140,7 +140,7 @@ int main()
         }
 
         // Store the answer into required position.
-        answers[queries[i].second] = current_answer;
+        answers[queries[i].idx] = current_answer;
     }
 
     // We output answers *after* we process all queries.
