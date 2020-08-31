@@ -12,7 +12,7 @@ Perhaps a bit outside the scope of your question, but from my experience when it
 
 
 You have an array Arr of N numbers ranging from 0 to 99. Also you have Q queries [L, R]. For each such query you must print
-V([L, R]) = ∑i=0..99 count(i)2 * i
+V([L, R]) = ∑i=0..99 (count(i)^2) * i
 where count(i) is the number of times i occurs in Arr[L..R].
 
 test case:
