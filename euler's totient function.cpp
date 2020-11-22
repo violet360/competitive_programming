@@ -11,7 +11,12 @@ void totient(vector<ll>&phi, ll n)
 	{
 		phi[i] = i;
 	}
-	/*
+	/*if n = p1^k1 * p2^k2 * p3^k3 * ..... * pn^kn
+phi[n] = n *((p1-1)/p1)*((p2-1)/p2)*((p3-1)/p3)* ... *((pn-1)/pn)
+so when u see a prime just travel to it's multiples and change it accordingly , 
+let us say ' i ' is a multiple of ' p ' so when reach ' i ' via ' p ' then i * (p-1)/p ....and repeat this process for every prime divisor of i
+i * ((p-1)/p)*((p1 - 1)/p1)*((p2 - 1)/p2)*....*((ps - 1)/ps)
+*/
 	
 	
 	for(ll i=2; i<=n; i++)
