@@ -18,7 +18,7 @@ void totient(vector<ll>&phi, ll n)
 		{
 			for(ll j=i; j<=n; j+=i)
 			{
-				phi[j] = phi[i]/i;
+				phi[j] = phi[j]/i;
 				phi[j] *= (i-1);
 			}
 		}
